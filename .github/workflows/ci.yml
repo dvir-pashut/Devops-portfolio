@@ -1,0 +1,29 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Build the Docker image
+      run: docker build . --file Dockerfile --tag Dvirstore:$(date +%s)
+    - name: build mongodb image 
+      run: docker run -d --network some-net mongo:6.0.4
+    - name: run the app
+      run: docker run -d --network some-net -p 80:5000 --name app Dvirstore:$(date +%s)
+    - name: Test the app
+      run: |
+        curl --fail http://localhost:80/
+        curl --fail http://localhost:80/available-books
+
+
+
