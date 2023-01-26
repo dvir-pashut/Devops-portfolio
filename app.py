@@ -92,7 +92,7 @@ def monitoring():
 # monitor on health checks
 @app.get("/test")
 def test():
-    books_count = books.find()
+    books_count = emails.find()
     count = 0 
     for book in books_count:
         count += 1
