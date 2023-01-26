@@ -10,7 +10,7 @@ from bson.objectid import ObjectId
 
 app = Flask(__name__)
 
-client = MongoClient('172.18.0.2', 27017)
+client = MongoClient('mongo', 27017)
 
 db = client.Dvirstore
 books = db.books
