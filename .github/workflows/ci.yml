@@ -24,7 +24,7 @@ jobs:
       run: |
         sleep 10
         curl -i localhost
-        curl -i localhostavailable-books
+        curl -i localhost/available-books
 
 
 
