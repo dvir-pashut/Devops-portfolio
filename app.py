@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 from flask import Flask, render_template, request, redirect, url_for
 import os
-from flask_mail import Mail, Message
 import re
 
 app = Flask(__name__)

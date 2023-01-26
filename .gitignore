@@ -126,7 +126,7 @@ venv/
 ENV/
 env.bak/
 venv.bak/
-prot/
+myenv/
 # Spyder project settings
 .spyderproject
 .spyproject
