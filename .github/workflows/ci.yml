@@ -22,6 +22,7 @@ jobs:
       run: docker run -d --network some-net -p 80:5000 --name app dvirstore:latest
     - name: Test the app
       run: |
+        sleep 10
         curl --fail http://localhost:80/
         curl --fail http://localhost:80/available-books
 
