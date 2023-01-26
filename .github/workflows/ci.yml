@@ -23,8 +23,8 @@ jobs:
     - name: Test the app
       run: |
         sleep 10
-        curl -i localhost
-        curl -i localhost/available-books
+        curl -I localhost
+        curl -I localhost/avliable-books
 
 
 
