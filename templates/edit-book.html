@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 
-    <title>Booklist</title>
+    <title>EDIT-BOOK</title>
 <!--
 
 DIGITAL TREND
@@ -17,14 +17,14 @@ https://templatemo.com/tm-538-digital-trend
     <meta name="author" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-    <link rel="stylesheet" href="static/css/bootstrap.min.css">
-    <link rel="stylesheet" href="static/css/font-awesome.min.css">
-    <link rel="stylesheet" href="static/css/aos.css">
-    <link rel="stylesheet" href="static/css/owl.carousel.min.css">
-    <link rel="stylesheet" href="static/css/owl.theme.default.min.css">
+    <link rel="stylesheet" href="../static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../static/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../static/css/aos.css">
+    <link rel="stylesheet" href="../static/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="../static/css/owl.theme.default.min.css">
 
     <!-- MAIN CSS -->
-    <link rel="stylesheet" href="static/css/templatemo-digital-trend.css">
+    <link rel="stylesheet" href="../static/css/templatemo-digital-trend.css">
 
 </head>
 <body>
@@ -67,50 +67,54 @@ https://templatemo.com/tm-538-digital-trend
             <div class="row">
 
                     <div class="col-lg-6 mx-auto col-md-7 col-12 py-5 mt-5 text-center" data-aos="fade-up">
-                    <h1 class="mb-4">Hey there, this is all the avliable <strong>books</strong></h1>
+
+                    <h1 class="mb-4">Hey there, enter the  <strong>stuff</strong> about the book you want to  <strong>add</strong></h1>
+
+                    </div>
+
+                    <div class="col-lg-8 mx-auto col-md-10 col-12">
+                    
+                    <!-- Follow https://templatemo.com/contact page to setup your own contact form -->
+                    
+                    <form action="/edit/{{book_id}}" method="post" class="contact-form" data-aos="fade-up" data-aos-delay="300" role="form">
+                        <div class="row">
+                        <div class="col-lg-6 col-12">
+                        <input type="text" class="form-control" name="book-name" placeholder="Book-name">
+                        </div>
+
+                        <div class="col-lg-6 col-12">
+                            <p>the book id</p>
+                            <p>{{book_id}}</p>
+                        </div>
+
+                        <div class="col-lg-6 col-12">
+                        <input type="text" class="form-control" name="Author-name" placeholder="Author">
+                        </div>
+
+                        <div class="col-lg-12 col-12">
+                        <textarea class="form-control" rows="6" name="summery" placeholder="book summery"></textarea>
+                        </div>
+
+                        <div class="col-lg-6 col-12">
+                            <p>your rating of the book</p>
+                            <input type="range" class="form-control" name="rating" placeholder="your rating">
+                        </div>
+
+                        <div class="col-lg-6 col-12">
+                            <input type="email" class="form-control" name="email" placeholder="your Email">
+                        </div>
+
+                        <div class="col-lg-5 mx-auto col-7">
+                        <button type="submit" class="form-control" id="submit-button" name="submit">Send Message</button>
+                        </div>
+                        </div>
+
+                        </form>
                     </div>
 
             </div>
-            
+        </div>
     </section>
-    <div class="books">
-        <hr>
-        <style>
-            table, th, td {
-                margin: 0 auto;
-                border: 1px solid black;
-                padding: 5px;
-            }
-            th, td {
-                text-align: left;
-            }
-        </style>
-        <table>
-            <tr>
-                <th><strong>Book ID</strong></th>
-                <th><strong>Book Name</strong></th>
-                <th><strong>Author Name</strong></th>
-                <th><strong>summery</strong></th>
-                <th><strong>Book Rating</strong></th>
-                <th><strong>Link To Edit</strong></th>
-                <th><strong>Delete Book</strong></th>
-            </tr>
-            {% for book in books %}
-                <tr>
-                    <td>{{ book['_id']}}</td>
-                    <td>{{book['book_name'] }}</td>
-                    <td>{{book['Author_name']}}</td>
-                    <td>{{book['summery']}}</td>
-                    <td>{{book['rating']}}</td>
-                    <td><a href="/edit-ui/{{book['_id']}}" class="btn">edit this book</a></td>
-                    <td>
-                        <a href="#" class="btn" onclick="if(confirm('Are you sure you want to delete book: {{ book['_id']}} ?')){window.location='/delete/{{book['_id']}}';}">delete this book</a>
-                    </td>
-                </tr>
-            {% endfor %}
-        </table>
-        
-    
 
     <footer class="site-footer">
     <div class="container">
@@ -174,11 +178,11 @@ https://templatemo.com/tm-538-digital-trend
 
 
     <!-- SCRIPTS -->
-    <script src="static/js/jquery.min.js"></script>
-    <script src="static/js/bootstrap.min.js"></script>
-    <script src="static/js/aos.js"></script>
-    <script src="static/js/owl.carousel.min.js"></script>
-    <script src="static/js/custom.js"></script>
+    <script src="../static/js/jquery.min.js"></script>
+    <script src="../static/js/bootstrap.min.js"></script>
+    <script src="../static/js/aos.js"></script>
+    <script src="../static/js/owl.carousel.min.js"></script>
+    <script src="../static/js/custom.js"></script>
 
 </body>
 </html>
