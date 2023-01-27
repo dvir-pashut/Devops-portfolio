@@ -19,7 +19,20 @@ db = client.dvirstore
 books = db.books
 emails = db.emails
 
-# post requestt
+# home page(not required but nice to have)
+@app.get("/")
+def home_page():
+    print(username)
+    books_count = books.find()
+    count = 0 
+    for _ in books_count:
+        count += 1
+    return render_template("index.html", count =count)
+
+@app.get("/insert-book")
+def enter_books():
+    return render_template("enter-book.html")
+
 @app.post("/insert-book")
 def books_are_pushed():
     content = request.form
@@ -31,15 +44,6 @@ def books_are_pushed():
     books.insert_one({'book_name': book_name, 'Author_name' : Author_name, 'rating' : rating, 'summery' : summery, 'email' : email })
     return redirect(url_for('get_books'))
 
-# home page(not required but nice to have)
-@app.get("/")
-def home_page():
-    print(username)
-    books_count = books.find()
-    count = 0 
-    for book in books_count:
-        count += 1
-    return render_template("index.html", count =count)
 
 @app.get("/contact")
 def contacts():
@@ -53,9 +57,7 @@ def contacts_post():
     emails.insert_one({'name': name, 'email': email, 'message': message })
     return render_template("contact.html")
 
-@app.get("/insert-book")
-def enter_books():
-    return render_template("enter-book.html")
+
 
 @app.get("/avliable-books")
 def get_books():
@@ -89,9 +91,9 @@ def edit(id):
 
 
 # monitor on health checks
-@app.get("/monitor")
+@app.get("/project_detail")
 def monitoring():
-    return render_template("monitor.html")
+    return render_template("project-detail.html")
 
 # monitor on health checks
 @app.get("/test")
