@@ -4,5 +4,5 @@ COPY requirement.txt .
 RUN pip install -r requirement.txt
 COPY app.py .
 COPY templates templates
-COPY static static
+#COPY static static  #serving staticfiles from nginx server
 ENTRYPOINT [ "./app.py" ]

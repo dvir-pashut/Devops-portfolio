@@ -10,9 +10,12 @@ from bson.objectid import ObjectId
 
 app = Flask(__name__)
 
-client = MongoClient('mongo', 27017)
+username = os.environ.get("MONGO_INITDB_ROOT_USERNAME")
+password = os.environ.get("MONGO_INITDB_ROOT_PASSWORD")
+client = MongoClient('mongo',27017, username=username, password=password)
+#client = MongoClient("mongodb://"+username+":"+password+"@mongo")
 
-db = client.Dvirstore
+db = client.dvirstore
 books = db.books
 emails = db.emails
 
@@ -31,6 +34,7 @@ def books_are_pushed():
 # home page(not required but nice to have)
 @app.get("/")
 def home_page():
+    print(username)
     books_count = books.find()
     count = 0 
     for book in books_count:
@@ -92,11 +96,7 @@ def monitoring():
 # monitor on health checks
 @app.get("/test")
 def test():
-    books_count = emails.find()
-    count = 0 
-    for book in books_count:
-        count += 1
-    return str(count)
+    return str(username)
 
 
 if __name__ == '__main__':
