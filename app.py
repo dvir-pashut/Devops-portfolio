@@ -22,7 +22,6 @@ emails = db.emails
 # home page(not required but nice to have)
 @app.get("/")
 def home_page():
-    print(username)
     books_count = books.find()
     count = 0 
     for _ in books_count:
@@ -42,12 +41,21 @@ def books_are_pushed():
     rating = request.form["rating"]
     summery = request.form["summery"]
     books.insert_one({'book_name': book_name, 'Author_name' : Author_name, 'rating' : rating, 'summery' : summery, 'email' : email })
+    #return content
     return redirect(url_for('get_books'))
 
 
 @app.get("/contact")
 def contacts():
     return render_template("contact.html")
+
+@app.get("/contact-info")
+def contacts_all():
+    contacts_all = emails.find()
+    list = [] 
+    for contact in contacts_all:
+        list.append(str(contact)) 
+    return list
 
 @app.post("/contact")
 def contacts_post():
@@ -102,4 +110,4 @@ def test():
 
 
 if __name__ == '__main__':
-    app.run(host="0.0.0.0",debug=True)
+    app.run(host="0.0.0.0")
