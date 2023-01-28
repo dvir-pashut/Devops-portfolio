@@ -22,7 +22,7 @@ jobs:
       run: docker run -d --network some-net -p 80:5000 --name app dvirstore:latest
     - name: Test the app
       run: |
-        bash e2e.sh
+        bash e2e-tests/e2e.sh
 
 
 
