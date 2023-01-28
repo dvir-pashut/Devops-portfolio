@@ -1,5 +1,5 @@
 #!/bin/bash
-#sleep 10
+sleep 10
 
 #testing the main funcuins 
 curl -I localhost
