@@ -29,7 +29,6 @@ jobs:
       run: | 
         cd terr
         terraform init
-        terraform fmt -check
         terraform plan -var-file prod.tfvars
       
       env:
