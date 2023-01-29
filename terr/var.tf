@@ -11,7 +11,6 @@ variable "region" {
     description = "region"
 }
 
-provider "google" {
-    project = var.project_id
-    region  = var.region
+variable "zone" {
+    description = "zone"
 }

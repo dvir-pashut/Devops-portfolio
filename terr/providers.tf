@@ -17,7 +17,7 @@ terraform {
 }
 
 provider "google" {
-  project = "task-1-375619"
-  region  = "us-central1"
-  zone    = "us-central1-c"
+  project = var.project_id
+  region  = var.region
+  zone    = var.zone
 }
