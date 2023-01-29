@@ -18,7 +18,7 @@ jobs:
       run: docker compose up -d 
     - name: Test the app
       run: |
-        bash e2e-tests/e2e.s
+        bash e2e-tests/e2e.sh
     
     # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
     - name: Setup Terraform
