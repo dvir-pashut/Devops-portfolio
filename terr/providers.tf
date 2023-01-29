@@ -12,7 +12,7 @@ terraform {
   }
   backend "gcs" {
     bucket  = "tf-state-dvir"
-    prefix  = "terraform/state"
+    prefix  = "portfolio/state"
   }
 }
 
