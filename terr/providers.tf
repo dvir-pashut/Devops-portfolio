@@ -9,6 +9,10 @@ terraform {
       version = "2.3.0"
 
     }
+    kubernetes = {
+      source = "hashicorp/kubernetes"
+      version = "2.17.0"
+    }
   }
   backend "gcs" {
     bucket  = "tf-state-dvir"
@@ -21,3 +25,4 @@ provider "google" {
   region  = var.region
   zone    = var.zone
 }
+

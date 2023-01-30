@@ -1,5 +1,5 @@
 resource "google_service_account" "default" {
-  account_id   = "service-account-id"
+  account_id   = "for-the-nodes"
   display_name = "Service Account"
 }
 
