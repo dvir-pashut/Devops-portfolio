@@ -82,6 +82,11 @@ def delete(id):
     books.delete_one({"_id": ObjectId(id)})
     return redirect(url_for('get_books'))
 
+@app.delete('/delete/<id>')
+def deletecli(id):
+    books.delete_one({"_id": ObjectId(id)})
+    return redirect(url_for('get_books'))
+
 @app.get('/edit-ui/<id>')
 def edit_ui(id):
     return render_template("edit-book.html", book_id=id)
