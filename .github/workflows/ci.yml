@@ -18,25 +18,31 @@ jobs:
       env:
         username: ${{ secrets.DOCKER_USERNAME }}
       run: |
-       docker build -t ${username}/dvirstore:0.2 .
+       docker build -t ${username}/dvirstore:test .
        docker compose up -d 
     - name: Test the app
       run: |
         bash e2e-tests/e2e.sh
-    
-    # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
-    - name: Setup Terraform
-      uses: hashicorp/setup-terraform@v1
 
-    # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
-    - name: Terraform Init
-      run: | 
-        cd terr
-        terraform init
-        terraform plan -var-file prod.tfvars
+
+
+    - name: Bump version and push tag
+      uses: anothrNick/github-tag-action@1.61.0 # Don't use @master unless you're happy to test the latest version
       env:
-        GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS}}
+        GITHUB_TOKEN: ${{ secrets.KEYSSSSS }}
+        WITH_V: false
+        DEFAULT_BUMP: patch
+        INITIAL_VERSION: 1.0.0
+        VERBOSE: true
+        DEFAULT_BRANCH: "main"
       
+    - name: echo the tag
+      env:
+        username: ${{ secrets.DOCKER_USERNAME }}
+      run: |
+       docker tag ${username}/dvirstore:test   ${username}/dvirstore:$(git describe --tags)
+
+    
     - name: Log in to Docker Hub
       env:
         username: ${{ secrets.DOCKER_USERNAME }}
@@ -48,7 +54,4 @@ jobs:
     
     - name: push the image 
       run: |
-        docker push ${{ secrets.DOCKER_USERNAME }}/dvirstore:0.2
-
-
-
+        docker push ${{ secrets.DOCKER_USERNAME }}/dvirstore:$(git describe --tags)

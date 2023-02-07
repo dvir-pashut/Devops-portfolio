@@ -14,7 +14,7 @@ services:
 
   dvirstore:
     container_name: dvirstore
-    image: ${username}/dvirstore:0.2 
+    image: ${username}/dvirstore:test 
     environment:
      - MONGO_INITDB_ROOT_USERNAME=${mongouser}
      - MONGO_INITDB_ROOT_PASSWORD=${mongopass}
