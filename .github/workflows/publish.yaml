@@ -21,4 +21,4 @@ jobs:
     
     - name: echo the tag
       run: |
-        echo ${{needs.build.outputs.tag}}
+        git describe --tags
