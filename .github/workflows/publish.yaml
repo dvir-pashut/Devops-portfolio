@@ -18,8 +18,10 @@ jobs:
         WITH_V: false
         DEFAULT_BUMP: patch
         INITIAL_VERSION: 1.0.0
+        MAJOR_STRING_TOKEN: "#major"
+        MINOR_STRING_TOKEN: "#minor"
+
     
     - name: echo the tag
       run: |
         git describe --tags
-        
