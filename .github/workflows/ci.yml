@@ -19,7 +19,7 @@ jobs:
       run: |
         bash e2e-tests/e2e.sh
 
-  deploy:
+  publish:
     runs-on: ubuntu-latest
     needs: build-tets
     if: github.ref == 'refs/heads/main'
