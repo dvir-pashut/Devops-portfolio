@@ -22,7 +22,7 @@ jobs:
         bash e2e-tests/e2e.sh
 
     - name: Bump version and push tag
-    - if: ${{ github.ref == 'refs/heads/master'}}
+      if: ${{ github.ref == 'refs/heads/master'}}
       uses: anothrNick/github-tag-action@1.61.0 # Don't use @master unless you're happy to test the latest version
       env:
         GITHUB_TOKEN: ${{ secrets.KEYSSSSS }}
@@ -33,7 +33,7 @@ jobs:
         DEFAULT_BRANCH: "main"
       
     - name: echo the tag
-    - if: ${{ github.ref == 'refs/heads/master'}}
+      if: ${{ github.ref == 'refs/heads/master'}}
       env:
         username: ${{ secrets.DOCKER_USERNAME }}
       run: |
@@ -41,7 +41,7 @@ jobs:
 
     
     - name: Log in to Docker Hub
-    - if: ${{ github.ref == 'refs/heads/master'}}
+      if: ${{ github.ref == 'refs/heads/master'}}
       env:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
@@ -49,6 +49,6 @@ jobs:
         docker login -u $username -p $password
 
     - name: push the image
-    - if: ${{ github.ref == 'refs/heads/master'}}
+      if: ${{ github.ref == 'refs/heads/master'}}
       run: |
         docker push ${{ secrets.DOCKER_USERNAME }}/dvirstore:$(git describe --tags)
