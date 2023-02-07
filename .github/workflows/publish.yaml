@@ -25,4 +25,4 @@ jobs:
     
     - name: Tag Docker Image
       run: |
-        docker tag <image_name> <image_name>:${{ steps.Bump version and push tag.outputs.new_tag }}
+        echo ${{ steps.Bump version and push tag.outputs.new_tag }}
