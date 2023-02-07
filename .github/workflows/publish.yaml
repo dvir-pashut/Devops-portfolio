@@ -21,4 +21,4 @@ jobs:
     
     - name: echo the tag
       run: |
-        echo ${{ outputs.tag }}
+        echo ${{needs.build.outputs.new_tag}}
