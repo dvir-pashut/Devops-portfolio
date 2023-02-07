@@ -22,3 +22,7 @@ jobs:
     - name: echo the tag
       run: |
         git describe --tags
+    
+    - name: Tag Docker Image
+      run: |
+        docker tag <image_name> <image_name>:${{ steps.Bump version and push tag.outputs.new_tag }}
