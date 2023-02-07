@@ -22,4 +22,3 @@ jobs:
     - name: echo the tag
       run: |
         git describe --tags
-    
