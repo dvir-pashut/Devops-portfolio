@@ -4,7 +4,7 @@ on: push
 
 jobs:
 
-  build:
+  build+tets:
     runs-on: ubuntu-latest
 
     steps:
@@ -21,7 +21,7 @@ jobs:
 
   deploy:
     runs-on: ubuntu-latest
-    needs: test
+    needs: build+tets
     if: github.ref == 'refs/heads/main'
     steps:
     - name: Bump version and push tag
