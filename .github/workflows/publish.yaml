@@ -20,6 +20,7 @@ jobs:
         INITIAL_VERSION: 1.0.0
         VERBOSE: true
         DEFAULT_BRANCH: "work1"
+        RELEASE_BRANCHES: "work1"
 
     
     - name: echo the tag
