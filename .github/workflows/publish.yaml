@@ -11,7 +11,7 @@ jobs:
       with:
         fetch-depth: '0'
 
-    - name: Bump version and push tag
+    - name: Bump 
       uses: anothrNick/github-tag-action@1.55.0 # Don't use @master unless you're happy to test the latest version
       env:
         GITHUB_TOKEN: ${{ secrets.KEYSSSSS }}
@@ -25,4 +25,4 @@ jobs:
     
     - name: Tag Docker Image
       run: |
-        echo ${{ steps.Bump version and push tag.outputs.new_tag }}
+        echo ${{ steps.Bump.outputs.new_tag }}
