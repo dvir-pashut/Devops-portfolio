@@ -82,7 +82,7 @@ def delete(id):
     books.delete_one({"_id": ObjectId(id)})
     return redirect(url_for('get_books'))
 
-@app.delete('/delete/<id>')
+@app.post('/delete/<id>')
 def deletecli(id):
     books.delete_one({"_id": ObjectId(id)})
     return redirect(url_for('get_books'))
@@ -111,7 +111,11 @@ def monitoring():
 # monitor on health checks
 @app.get("/test")
 def test():
-    return str(username)
+    client =request.headers.get('User-Agent').split("/")[0]
+    if client == "curl":
+        return "you are using curl"
+    return str(client)
+
 
 
 if __name__ == '__main__':
