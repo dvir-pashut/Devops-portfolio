@@ -39,7 +39,7 @@ jobs:
     #     DEFAULT_BRANCH: "main"
       
     - name: tag the image
-      if: ${{ github.ref == 'refs/heads/main'}}
+      # if: ${{ github.ref == 'refs/heads/main'}}
       run: |
        docker tag dvireview:test  us-docker.pkg.dev/task-1-375619/dvireview/dvireview:$(git describe --tags)
 
@@ -52,7 +52,7 @@ jobs:
     #     password: ${{ secrets.DOCKER_PASSWORD }}
 
     - name: push the image
-      if: ${{ github.ref == 'refs/heads/main'}}
+      # if: ${{ github.ref == 'refs/heads/main'}}
       run: |
         docker push us-docker.pkg.dev/task-1-375619/dvireview/dvireview:$(git describe --tags)
       env:
