@@ -19,9 +19,9 @@ services:
      - MONGO_INITDB_ROOT_USERNAME=${mongouser}
      - MONGO_INITDB_ROOT_PASSWORD=${mongopass}
     depends_on:
-     - mongodb-headless
+     - -mongodb-headless
   
-  mongodb-headless:  
+  -mongodb-headless:  
     container_name: mongo
     image: mongo:6.0.4
     volumes:
