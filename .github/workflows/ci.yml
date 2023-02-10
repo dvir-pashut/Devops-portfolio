@@ -2,9 +2,10 @@ name: Docker Image CI
 
 on: 
   push:
-    - work*
-    - feature/*
-    - main
+    branches:
+      - work*
+      - feature/*
+      - main
 
 jobs:
 
