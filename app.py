@@ -12,10 +12,12 @@ app = Flask(__name__)
 
 username = os.environ.get("MONGO_INITDB_ROOT_USERNAME")
 password = os.environ.get("MONGO_INITDB_ROOT_PASSWORD")
-client = MongoClient('mongo',27017, username=username, password=password)
+releas_name = os.environ.get("REALEAS")
+mongo = releas_name + "-mongodb-headless"
+client = MongoClient(mongo,27017, username=username, password=password,authSource="dvireview",authMechanism='SCRAM-SHA-256')
 #client = MongoClient("mongodb://"+username+":"+password+"@mongo")
 
-db = client.dvirstore
+db = client.dvireview
 books = db.books
 emails = db.emails
 

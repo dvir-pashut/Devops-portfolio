@@ -5,7 +5,7 @@ db.createUser(
         roles : [
             {
             role : "readwrite",
-            db   : "dvirstore"
+            db   : "Dvireview"
             }
         ]
     }
