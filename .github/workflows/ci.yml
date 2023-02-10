@@ -20,12 +20,12 @@ jobs:
         mongopass: ${{ secrets.MONGOPASS }}
       run: |
        docker build -t dvireview:test .
-       #docker compose up -d 
+       docker compose up -d 
 
-    # - name: Test the app
-    #   run: |
-    #     docker ps -a
-    #     bash e2e-tests/e2e.sh
+    - name: Test the app
+      run: |
+        docker ps -a
+        bash e2e-tests/e2e.sh
 
     - name: Bump version and push tag
       # if: ${{ github.ref == 'refs/heads/main'}}
@@ -39,11 +39,12 @@ jobs:
         DEFAULT_BRANCH: "main"
       
     - name: tag the image
-      # if: ${{ github.ref == 'refs/heads/main'}}
+      if: ${{ github.ref == 'refs/heads/main'}}
       run: |
        docker tag dvireview:test  us-docker.pkg.dev/task-1-375619/dvireview/dvireview:$(git describe --tags)
 
     - name: Google Auth
+      if: ${{ github.ref == 'refs/heads/main'}}
       id: auth
       uses: 'google-github-actions/auth@v0'
       with:
@@ -51,16 +52,11 @@ jobs:
         
     
     - name: Docker Auth
+      if: ${{ github.ref == 'refs/heads/main'}}
       run: gcloud auth configure-docker us-docker.pkg.dev
-      # id: docker-auth
-      # uses: 'docker/login-action@v2.1.0'
-      # with:
-      #   username: 'oauth2accesstoken'
-      #   password: '${{ steps.auth.outputs.access_token }}'
-      #   registry: 'us-docker.pkg.dev'
 
     - name: push the image
-      # if: ${{ github.ref == 'refs/heads/main'}}
+      if: ${{ github.ref == 'refs/heads/main'}}
       run: |
         docker push us-docker.pkg.dev/task-1-375619/dvireview/dvireview:$(git describe --tags)
       env:
