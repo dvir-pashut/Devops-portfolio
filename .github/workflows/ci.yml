@@ -53,11 +53,13 @@ jobs:
     
     - name: Docker Auth
       if: ${{ github.ref == 'refs/heads/main'}}
+      id: auth
       run: gcloud auth configure-docker us-docker.pkg.dev
 
     - name: push the image
       if: ${{ github.ref == 'refs/heads/main'}}
       run: |
         docker push us-docker.pkg.dev/task-1-375619/dvireview/dvireview:$(git describe --tags)
+        rm home/runner/.docker/config.json
       env:
         GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS}}
