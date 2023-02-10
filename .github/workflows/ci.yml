@@ -19,7 +19,7 @@ jobs:
         mongouser: "root"
         mongopass: "password"
       run: |
-       docker build -t ${username}/dvireview:test .
+       docker build -t dvir33/dvireview:test .
        docker compose up -d 
 
     - name: Test the app
