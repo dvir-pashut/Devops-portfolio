@@ -14,7 +14,7 @@ services:
 
   Dvireview:
     container_name: dvireview
-    image: dvireview:test 
+    image: dvireview:test
     environment:
      - MONGO_INITDB_ROOT_USERNAME=${mongouser}
      - MONGO_INITDB_ROOT_PASSWORD=${mongopass}
