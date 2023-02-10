@@ -15,7 +15,7 @@ jobs:
       env:
         username: ${{ secrets.DOCKER_USERNAME }}
       run: |
-       docker build -t ${username}/dvirstore:test .
+       docker build -t ${username}/Dvireview:test .
        docker compose up -d 
     
     

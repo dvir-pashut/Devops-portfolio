@@ -12,10 +12,16 @@ app = Flask(__name__)
 
 username = os.environ.get("MONGO_INITDB_ROOT_USERNAME")
 password = os.environ.get("MONGO_INITDB_ROOT_PASSWORD")
-client = MongoClient('mongo',27017, username=username, password=password)
-#client = MongoClient("mongodb://"+username+":"+password+"@mongo")
+releas_name = os.environ.get("REALEAS")
+if releas_name:
+    mongo = releas_name + "-mongodb-headless"
+    client = MongoClient(mongo,27017, username=username, password=password,authSource="dvireview",authMechanism='SCRAM-SHA-256')
+else:
+    mongo = "-mongodb-headless"
+    client = MongoClient(mongo,27017, username="root", password="password")
 
-db = client.dvirstore
+
+db = client.dvireview
 books = db.books
 emails = db.emails
 
@@ -82,7 +88,7 @@ def delete(id):
     books.delete_one({"_id": ObjectId(id)})
     return redirect(url_for('get_books'))
 
-@app.delete('/delete/<id>')
+@app.post('/delete/<id>')
 def deletecli(id):
     books.delete_one({"_id": ObjectId(id)})
     return redirect(url_for('get_books'))
@@ -111,7 +117,11 @@ def monitoring():
 # monitor on health checks
 @app.get("/test")
 def test():
-    return str(username)
+    client =request.headers.get('User-Agent').split("/")[0]
+    if client == "curl":
+        return "you are using curl"
+    return str(client)
+
 
 
 if __name__ == '__main__':

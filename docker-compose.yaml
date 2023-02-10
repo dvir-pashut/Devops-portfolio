@@ -10,25 +10,25 @@ services:
       - "./nginx/nginx.conf:/etc/nginx/conf.d/default.conf"
       - "./nginx/static:/usr/share/nginx/html/static"
     depends_on:
-      - dvirstore
+      - Dvireview
 
-  dvirstore:
-    container_name: dvirstore
-    image: ${username}/dvirstore:test 
+  Dvireview:
+    container_name: dvireview
+    image: dvireview:test
     environment:
      - MONGO_INITDB_ROOT_USERNAME=${mongouser}
      - MONGO_INITDB_ROOT_PASSWORD=${mongopass}
     depends_on:
-     - mongo
+     - -mongodb-headless
   
-  mongo:  
+  -mongodb-headless:  
     container_name: mongo
     image: mongo:6.0.4
     volumes:
       - mongo-data:/data/db
       - ./nginx/init-mongo.js:/docker-entrypoint-initdb.d/init-mongo-js:ro
     environment:
-      - MONGO_INITDB_DATABASE=dvirstore
+      - MONGO_INITDB_DATABASE=dvireview
       - MONGO_INITDB_ROOT_USERNAME=${mongouser}
       - MONGO_INITDB_ROOT_PASSWORD=${mongopass}
 
