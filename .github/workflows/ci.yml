@@ -16,8 +16,8 @@ jobs:
     - uses: actions/checkout@v3
     - name: Build the Docker image
       env:
-        mongouser: root
-        mongopass: password
+        mongouser: ${{ secrets.MONGOUSER }}
+        mongopass: ${{ secrets.MONGOPASS }}
       run: |
        docker build -t dvireview:test .
        docker compose up -d 
