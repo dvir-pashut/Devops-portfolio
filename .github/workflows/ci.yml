@@ -53,7 +53,6 @@ jobs:
     
     - name: Docker Auth
       if: ${{ github.ref == 'refs/heads/main'}}
-      id: auth
       run: gcloud auth configure-docker us-docker.pkg.dev
 
     - name: push the image
