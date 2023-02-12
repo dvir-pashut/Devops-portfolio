@@ -30,6 +30,7 @@ jobs:
 
     - name: Bump version and push tag
       #if: ${{ github.ref == 'refs/heads/main'}}
+      id: tag
       uses: anothrNick/github-tag-action@1.61.0 # Don't use @master unless you're happy to test the latest version
       env:
         GITHUB_TOKEN: ${{ secrets.KEYSSSSS }}
@@ -42,9 +43,8 @@ jobs:
     - name: tag the image
       #if: ${{ github.ref == 'refs/heads/main'}}
       run: |
-        export tag=$(git describe --tags)
-        # docker tag nginx:test us-docker.pkg.dev/task-1-375619/port-nginx/port-nginx:$(git describe --tags)
-        # docker tag dvireview:test  us-docker.pkg.dev/task-1-375619/dvireview/dvireview:$(git describe --tags)
+        docker tag nginx:test us-docker.pkg.dev/task-1-375619/port-nginx/port-nginx:$(git describe --tags)
+        docker tag dvireview:test  us-docker.pkg.dev/task-1-375619/dvireview/dvireview:$(git describe --tags)
 
     - name: Google Auth
       if: ${{ github.ref == 'refs/heads/main'}}
@@ -75,6 +75,5 @@ jobs:
 
     - name: check
       run: |
-        cd dvireview
-        echo $tag
+        echo "${{ steps.tag.outputs.new_tag }}"
 
