@@ -70,4 +70,4 @@ jobs:
       env:
         github-token: ${{ secrets.KEYSSSSS }}
       run: |
-        git clone git@github.com:dvir-pashut/port-charts.git
+        git clone https://github.com/dvir-pashut/port-charts.git
