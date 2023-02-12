@@ -40,10 +40,11 @@ jobs:
         DEFAULT_BRANCH: "main"
       
     - name: tag the image
-      if: ${{ github.ref == 'refs/heads/main'}}
+      #if: ${{ github.ref == 'refs/heads/main'}}
       run: |
-        docker tag nginx:test us-docker.pkg.dev/task-1-375619/port-nginx/port-nginx:$(git describe --tags)
-        docker tag dvireview:test  us-docker.pkg.dev/task-1-375619/dvireview/dvireview:$(git describe --tags)
+        export tag=$(git describe --tags)
+        # docker tag nginx:test us-docker.pkg.dev/task-1-375619/port-nginx/port-nginx:$(git describe --tags)
+        # docker tag dvireview:test  us-docker.pkg.dev/task-1-375619/dvireview/dvireview:$(git describe --tags)
 
     - name: Google Auth
       if: ${{ github.ref == 'refs/heads/main'}}
@@ -74,9 +75,5 @@ jobs:
 
     - name: check
       run: |
-        cd ..
-        export tag=$(git describe --tags)
-        cd -
         cd dvireview
-        ls
 
