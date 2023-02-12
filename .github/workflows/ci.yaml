@@ -1,0 +1,99 @@
+name: CI
+on: 
+  push:
+    branches:
+      - work*
+      - feature/*
+      - main
+      
+jobs:
+  CI:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Build the Docker image
+      env:
+        mongouser: ${{ secrets.MONGOUSER }}
+        mongopass: ${{ secrets.MONGOPASS }}
+      run: |
+       docker build -t dvireview:test .
+       docker compose up -d 
+
+    - name: Test the app
+      run: |
+        docker ps -a
+        bash e2e-tests/e2e.sh
+
+    - name: Bump version and push tag
+      if: ${{ github.ref == 'refs/heads/main'}}
+      id: tag
+      uses: anothrNick/github-tag-action@1.61.0 # Don't use @master unless you're happy to test the latest version
+      env:
+        GITHUB_TOKEN: ${{ secrets.KEYSSSSS }}
+        WITH_V: false
+        DEFAULT_BUMP: patch
+        INITIAL_VERSION: 1.0.0
+        VERBOSE: true
+        DEFAULT_BRANCH: "main"
+      
+    - name: tag the image
+      if: ${{ github.ref == 'refs/heads/main'}}
+      run: |
+        docker build -t nginx:test nginx/
+        docker tag nginx:test us-docker.pkg.dev/task-1-375619/port-nginx/port-nginx:$(git describe --tags)
+        docker tag dvireview:test  us-docker.pkg.dev/task-1-375619/dvireview/dvireview:$(git describe --tags)
+
+    - name: Google Auth
+      if: ${{ github.ref == 'refs/heads/main'}}
+      id: auth
+      uses: 'google-github-actions/auth@v0'
+      with:
+        credentials_json: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
+        
+    - name: Docker Auth
+      if: ${{ github.ref == 'refs/heads/main'}}
+      run: gcloud auth configure-docker us-docker.pkg.dev
+
+    - name: push the image
+      if: ${{ github.ref == 'refs/heads/main'}}
+      run: |
+        docker push us-docker.pkg.dev/task-1-375619/dvireview/dvireview:$(git describe --tags)
+        docker push us-docker.pkg.dev/task-1-375619/port-nginx/port-nginx:$(git describe --tags)
+      env:
+        GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS}}
+
+
+  # CD:
+  #   needs: [CI]
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #   - uses: actions/checkout@v3
+  #   - name: clone the gitops repo
+  #     if: ${{ github.ref == 'refs/heads/main'}}
+  #     uses: actions/checkout@v3
+  #     with:
+  #       repository: dvir-pashut/port-charts
+  #       token: ${{ secrets.KEYSSSSS }}
+  #       ref: main
+
+  #   - name: do some gitops
+  #     if: ${{ github.ref == 'refs/heads/main'}}
+  #     run: |
+  #       tag="${{ steps.tag.outputs.new_tag }}"
+  #       sed -i "s/tag:.*/tag: $tag/" dvireview/values.yaml
+  #       git config --global user.email "github@git.com"
+  #       git config --global user.name "github actions"
+  #       git add values.yaml
+  #       git commit -m "update the image tag to $tag"
+  #       git push origin main
+
+  #   - name: Slack Notification
+  #     uses: rtCamp/action-slack-notify@v2
+  #     env:
+  #       SLACK_CHANNEL: general
+  #       SLACK_COLOR: ${{ job.status }} # or a specific color like 'good' or '#ff00ff'
+  #       SLACK_ICON: https://github.com/rtCamp.png?size=48
+  #       SLACK_MESSAGE: 'Post Content the job on brunch ${{ github.ref }}  was ${{ job.status }} :rocket: '
+  #       SLACK_TITLE: CI Report
+  #       SLACK_USERNAME: GithubActions
+  #       SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
