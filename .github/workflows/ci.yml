@@ -71,3 +71,6 @@ jobs:
         repository: dvir-pashut/port-charts
         token: ${{ secrets.KEYSSSSS }}
         ref: main
+      run: |
+        ls
+        git status
