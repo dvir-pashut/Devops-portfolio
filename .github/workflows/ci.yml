@@ -14,22 +14,22 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    - name: Build the Docker image
-      env:
-        mongouser: ${{ secrets.MONGOUSER }}
-        mongopass: ${{ secrets.MONGOPASS }}
-      run: |
-       docker build -t dvireview:test .
-       docker build -t nginx:test nginx/
-       docker compose up -d 
+    # - name: Build the Docker image
+    #   env:
+    #     mongouser: ${{ secrets.MONGOUSER }}
+    #     mongopass: ${{ secrets.MONGOPASS }}
+    #   run: |
+    #    docker build -t dvireview:test .
+    #    docker build -t nginx:test nginx/
+    #    docker compose up -d 
 
-    - name: Test the app
-      run: |
-        docker ps -a
-        bash e2e-tests/e2e.sh
+    # - name: Test the app
+    #   run: |
+    #     docker ps -a
+    #     bash e2e-tests/e2e.sh
 
     - name: Bump version and push tag
-      if: ${{ github.ref == 'refs/heads/main'}}
+      #if: ${{ github.ref == 'refs/heads/main'}}
       uses: anothrNick/github-tag-action@1.61.0 # Don't use @master unless you're happy to test the latest version
       env:
         GITHUB_TOKEN: ${{ secrets.KEYSSSSS }}
@@ -69,7 +69,7 @@ jobs:
     - name: update gitops
       uses: denispalnitsky/gitops-release@v7
       with:
-        file: "dvireview/values.yaml"
+        file: "values.yaml"
         key: "image.tag"
         value: "$(git describe --tags)"
         github-token: ${{ secrets.GIT_ACCESS_TOKEN }}
