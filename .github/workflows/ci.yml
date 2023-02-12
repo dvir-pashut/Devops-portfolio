@@ -41,7 +41,7 @@ jobs:
         DEFAULT_BRANCH: "main"
       
     - name: tag the image
-      #if: ${{ github.ref == 'refs/heads/main'}}
+      if: ${{ github.ref == 'refs/heads/main'}}
       run: |
         docker tag nginx:test us-docker.pkg.dev/task-1-375619/port-nginx/port-nginx:$(git describe --tags)
         docker tag dvireview:test  us-docker.pkg.dev/task-1-375619/dvireview/dvireview:$(git describe --tags)
