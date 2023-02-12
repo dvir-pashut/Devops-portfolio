@@ -1,12 +1,10 @@
-name: Docker Image CI
-
+name: CI
 on: 
   push:
     branches:
       - work*
       - feature/*
       - main
-
 jobs:
   CI:
     runs-on: ubuntu-latest
@@ -80,8 +78,7 @@ jobs:
       if: ${{ github.ref == 'refs/heads/main'}}
       run: |
         tag="${{ steps.tag.outputs.new_tag }}"
-        cd dvireview
-        sed -i "s/tag:.*/tag: $tag/" values.yaml
+        sed -i "s/tag:.*/tag: $tag/" dvireview/values.yaml
         git config --global user.email "github@git.com"
         git config --global user.name "github actions"
         git add values.yaml
