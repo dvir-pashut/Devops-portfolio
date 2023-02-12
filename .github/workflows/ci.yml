@@ -14,19 +14,19 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    # - name: Build the Docker image
-    #   env:
-    #     mongouser: ${{ secrets.MONGOUSER }}
-    #     mongopass: ${{ secrets.MONGOPASS }}
-    #   run: |
-    #    docker build -t dvireview:test .
-    #    docker build -t nginx:test nginx/
-    #    docker compose up -d 
+    - name: Build the Docker image
+      env:
+        mongouser: ${{ secrets.MONGOUSER }}
+        mongopass: ${{ secrets.MONGOPASS }}
+      run: |
+       docker build -t dvireview:test .
+       docker build -t nginx:test nginx/
+       docker compose up -d 
 
-    # - name: Test the app
-    #   run: |
-    #     docker ps -a
-    #     bash e2e-tests/e2e.sh
+    - name: Test the app
+      run: |
+        docker ps -a
+        bash e2e-tests/e2e.sh
 
     - name: Bump version and push tag
       if: ${{ github.ref == 'refs/heads/main'}}
@@ -67,6 +67,7 @@ jobs:
         GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS}}
 
     - name: gitops
+      if: ${{ github.ref == 'refs/heads/main'}}
       uses: actions/checkout@v3
       with:
         repository: dvir-pashut/port-charts
