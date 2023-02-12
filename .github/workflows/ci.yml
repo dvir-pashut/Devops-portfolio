@@ -75,5 +75,5 @@ jobs:
     - name: check
       run: |
         ls
-        port-charts
+        cd port-charts
         ls
