@@ -20,7 +20,6 @@ jobs:
         mongopass: ${{ secrets.MONGOPASS }}
       run: |
        docker build -t dvireview:test .
-       docker build -t nginx:test -f nginx/Dockerfile.tets
        docker compose up -d 
 
     - name: Test the app
@@ -43,7 +42,7 @@ jobs:
     - name: tag the image
       if: ${{ github.ref == 'refs/heads/main'}}
       run: |
-        docker build -t nginx:test -f nginx/Dockerfile.prod
+        docker build -t nginx:test nginx/
         docker tag nginx:test us-docker.pkg.dev/task-1-375619/port-nginx/port-nginx:$(git describe --tags)
         docker tag dvireview:test  us-docker.pkg.dev/task-1-375619/dvireview/dvireview:$(git describe --tags)
 
