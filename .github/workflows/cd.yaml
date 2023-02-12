@@ -1,10 +1,12 @@
-name: CD
+name: CD-workflow
 on: 
   push:
     branches:
       - work*
       - feature/*
       - main
+
+jobs:
   CD:
     needs: [CI]
     runs-on: ubuntu-latest
