@@ -65,9 +65,9 @@ jobs:
       env:
         GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS}}
 
-    # name: gitops
-    # - uses: actions/checkout@v3
-    # with:
-    #   repository: dvir-pashut/port-charts
-    #   token: ${{ secrets.KEYSSSSS }}
-    #    ref: main
+    name: gitops
+    - uses: actions/checkout@v3
+    with:
+      repository: dvir-pashut/port-charts
+      token: ${{ secrets.KEYSSSSS }}
+       ref: main
