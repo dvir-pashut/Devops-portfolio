@@ -93,7 +93,7 @@ jobs:
         SLACK_CHANNEL: general
         SLACK_COLOR: ${{ job.status }} # or a specific color like 'good' or '#ff00ff'
         SLACK_ICON: https://github.com/rtCamp.png?size=48
-        SLACK_MESSAGE: 'Post Content the job was ${{ job.status }} :rocket: ${{ github.job	}}'
+        SLACK_MESSAGE: 'Post Content the job on brunch ${{ $GITHUB_REF }} was ${{ job.status }} :rocket: '
         SLACK_TITLE: CI Report
         SLACK_USERNAME: GithubActions
         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
