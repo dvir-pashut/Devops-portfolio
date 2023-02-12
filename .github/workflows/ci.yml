@@ -64,6 +64,7 @@ jobs:
         GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS}}
 
   CD:
+    needs: [CI]
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
