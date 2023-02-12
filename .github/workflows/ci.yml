@@ -74,9 +74,7 @@ jobs:
 
     - name: check
       run: |
-        ls
+        cd ..
         cd ..
         ls
-        cd ..
-        ls
-        
+
