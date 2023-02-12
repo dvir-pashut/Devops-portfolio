@@ -68,6 +68,6 @@ jobs:
     
     - name: update gitops
       env:
-        github-token: ${{ secrets.GIT_ACCESS_TOKEN }}
+        github-token: ${{ secrets.KEYSSSSS }}
       run: |
         git clone git@github.com:dvir-pashut/port-charts.git
