@@ -20,6 +20,7 @@ jobs:
         mongopass: ${{ secrets.MONGOPASS }}
       run: |
        docker build -t dvireview:test .
+       docker build -t nginx:test nginx/Dockerfile
        docker compose up -d 
 
     - name: Test the app
@@ -41,7 +42,8 @@ jobs:
     - name: tag the image
       if: ${{ github.ref == 'refs/heads/main'}}
       run: |
-       docker tag dvireview:test  us-docker.pkg.dev/task-1-375619/dvireview/dvireview:$(git describe --tags)
+        docker tag nginx:test us-docker.pkg.dev/task-1-375619/port-nginx/port-nginx:$(git describe --tags)
+        docker tag dvireview:test  us-docker.pkg.dev/task-1-375619/dvireview/dvireview:$(git describe --tags)
 
     - name: Google Auth
       if: ${{ github.ref == 'refs/heads/main'}}
@@ -59,5 +61,16 @@ jobs:
       if: ${{ github.ref == 'refs/heads/main'}}
       run: |
         docker push us-docker.pkg.dev/task-1-375619/dvireview/dvireview:$(git describe --tags)
+        docker push us-docker.pkg.dev/task-1-375619/port-nginx/port-nginx:$(git describe --tags)
       env:
         GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS}}
+
+    
+    - name: update gitops
+      uses: denispalnitsky/gitops-release@v7
+      with:
+        file: "dvireview/values.yaml"
+        key: "image.tag"
+        value: "$(git describe --tags)"
+        github-token: ${{ secrets.GIT_ACCESS_TOKEN }}
+        github-org-and-repo:  "myorg/infra-as-code-repo"
