@@ -74,7 +74,7 @@ jobs:
 
     - name: check
       run: |
-        cd ..
-        cd ..
+        export tag=$(git describe --tags)
+        cd dvireview
         ls
 
