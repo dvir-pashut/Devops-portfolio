@@ -20,7 +20,7 @@ jobs:
         mongopass: ${{ secrets.MONGOPASS }}
       run: |
        docker build -t dvireview:test .
-       docker build -t nginx:test nginx/Dockerfile
+       docker build -t nginx:test nginx/
        docker compose up -d 
 
     - name: Test the app
