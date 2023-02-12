@@ -71,6 +71,6 @@ jobs:
       with:
         file: "values.yaml"
         key: "image.tag"
-        value: "$(git describe --tags)"
+        value: 1.5
         github-token: ${{ secrets.GIT_ACCESS_TOKEN }}
         github-org-and-repo:  "dvir-pashut/port-charts"
