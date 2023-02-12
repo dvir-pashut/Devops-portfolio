@@ -76,5 +76,5 @@ jobs:
     - name: check
       run: |
         cd dvireview
-        exho $tag
+        echo $tag
 
