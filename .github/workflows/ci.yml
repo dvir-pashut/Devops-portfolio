@@ -80,4 +80,7 @@ jobs:
         tag="${{ steps.tag.outputs.new_tag }}"
         cd dvireview
         sed -i "s/tag:.*/tag: $tag/" values.yaml
+        git add values.yaml
+        git commit -m "update the image tag to $tag"
+        git push origin main
 
