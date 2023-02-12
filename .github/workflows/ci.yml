@@ -66,7 +66,7 @@ jobs:
       env:
         GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS}}
 
-    - name: gitops
+    - name: clone the gitops repo
       if: ${{ github.ref == 'refs/heads/main'}}
       uses: actions/checkout@v3
       with:
@@ -74,7 +74,7 @@ jobs:
         token: ${{ secrets.KEYSSSSS }}
         ref: main
 
-    - name: check
+    - name: do some gitops
       if: ${{ github.ref == 'refs/heads/main'}}
       run: |
         tag="${{ steps.tag.outputs.new_tag }}"
@@ -87,3 +87,13 @@ jobs:
         git commit -m "update the image tag to $tag"
         git push origin main
 
+  - name: Slack Notification
+    uses: rtCamp/action-slack-notify@v2
+    env:
+      SLACK_CHANNEL: general
+      SLACK_COLOR: ${{ job.status }} # or a specific color like 'good' or '#ff00ff'
+      SLACK_ICON: https://github.com/rtCamp.png?size=48
+      SLACK_MESSAGE: 'Post Content the job was ${{ job.status }} :rocket: ${{ github.job	}}'
+      SLACK_TITLE: CI Report
+      SLACK_USERNAME: GithubActions
+      SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
