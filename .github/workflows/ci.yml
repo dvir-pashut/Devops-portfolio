@@ -64,8 +64,8 @@ jobs:
         GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS}}
 
   CD:
-  runs-on: ubuntu-latest
-  steps:
+    runs-on: ubuntu-latest
+    steps:
     - uses: actions/checkout@v3
     - name: clone the gitops repo
       if: ${{ github.ref == 'refs/heads/main'}}
