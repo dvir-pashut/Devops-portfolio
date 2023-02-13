@@ -98,7 +98,6 @@ jobs:
         status: ${{ job.status }}
         steps: ${{ toJson(steps) }}
         channel: '#ci-cd'
-      if: always()
 
 
 
