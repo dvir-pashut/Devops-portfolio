@@ -17,7 +17,7 @@ jobs:
     - uses: act10ns/slack@v1
       with:
         status: starting
-        message: Starting ci on branch
+        message: Starting CI-CD
     
     - uses: actions/checkout@v3
     - name: Build the Docker image
@@ -76,6 +76,15 @@ jobs:
       env:
         GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS}}
 
+    - name: Slack Notification
+      if: always()
+      uses: act10ns/slack@v1
+      with:
+        message: CI is over now moving to the CD
+        status: ${{ job.status }}
+        steps: ${{ toJson(steps) }}
+        channel: '#ci-cd'
+
   CD:
     needs: [CI]
     runs-on: ubuntu-latest
@@ -84,6 +93,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: clone the gitops repo
+      id: clone-the-gitops-repo
       if: ${{ github.ref == 'refs/heads/main'}}
       uses: actions/checkout@v3
       with:
@@ -92,6 +102,7 @@ jobs:
         ref: main
 
     - name: do some gitops
+      id: update-the-gitops-repo
       if: ${{ github.ref == 'refs/heads/main'}}
       run: |
         tag="${{ needs.CI.outputs.new_tag }}"
@@ -110,6 +121,7 @@ jobs:
         status: ${{ job.status }}
         steps: ${{ toJson(steps) }}
         channel: '#ci-cd'
+        message: done
 
 
 
