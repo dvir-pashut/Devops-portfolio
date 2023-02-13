@@ -17,7 +17,7 @@ jobs:
     - uses: act10ns/slack@v1
       with:
         status: starting
-        message: Starting CI-CD on ${{ github.ref }}	${{ env.GITHUB_REF_NAME }}
+        message: Starting CI-CD on ${{ github.ref }}
     
     - uses: actions/checkout@v3
     - name: Build the Docker image
@@ -121,8 +121,6 @@ jobs:
         status: ${{ job.status }}
         steps: ${{ toJson(steps) }}
         channel: '#ci-cd'
-        message: done
-
 
 
       
