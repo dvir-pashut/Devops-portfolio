@@ -8,10 +8,17 @@ on:
 jobs:
   CI:
     runs-on: ubuntu-latest
+    env:
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
     outputs:
       new_tag: ${{ steps.tag.outputs.new_tag }}
       outcome: ${{ toJson(steps) }}
     steps:
+    - uses: act10ns/slack@v1
+      with:
+        status: starting
+        message: Starting Docker Build and Push...
+    
     - uses: actions/checkout@v3
     - name: Build the Docker image
       env:
@@ -90,8 +97,6 @@ jobs:
         git push origin main
 
     - name: Slack Notification
-      env:
-        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
       if: always()
       uses: act10ns/slack@v1
       with:
