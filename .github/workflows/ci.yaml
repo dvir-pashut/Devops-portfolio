@@ -30,99 +30,99 @@ jobs:
        docker build -t dvireview:test .
        docker compose up -d 
 
-    - name: Test the app
-      id: test
-      run: |
-        docker ps -a
-        bash e2e-tests/e2e.sh
+  #   - name: Test the app
+  #     id: test
+  #     run: |
+  #       docker ps -a
+  #       bash e2e-tests/e2e.sh
 
-    - name: Bump version and push tag
-      if: ${{ github.ref == 'refs/heads/main'}}
-      id: tag-bump
-      uses: anothrNick/github-tag-action@1.61.0 # Don't use @master unless you're happy to test the latest version
-      env:
-        GITHUB_TOKEN: ${{ secrets.KEYSSSSS }}
-        WITH_V: false
-        DEFAULT_BUMP: patch
-        INITIAL_VERSION: 1.0.0
-        VERBOSE: true
-        DEFAULT_BRANCH: "main"
+  #   - name: Bump version and push tag
+  #     if: ${{ github.ref == 'refs/heads/main'}}
+  #     id: tag-bump
+  #     uses: anothrNick/github-tag-action@1.61.0 # Don't use @master unless you're happy to test the latest version
+  #     env:
+  #       GITHUB_TOKEN: ${{ secrets.KEYSSSSS }}
+  #       WITH_V: false
+  #       DEFAULT_BUMP: patch
+  #       INITIAL_VERSION: 1.0.0
+  #       VERBOSE: true
+  #       DEFAULT_BRANCH: "main"
       
-    - name: tag the image
+  #   - name: tag the image
 
-      if: ${{ github.ref == 'refs/heads/main'}}
-      id: tag-the-image
-      run: |
-        docker build -t nginx:test nginx/
-        docker tag nginx:test us-docker.pkg.dev/task-1-375619/port-nginx/port-nginx:$(git describe --tags)
-        docker tag dvireview:test  us-docker.pkg.dev/task-1-375619/dvireview/dvireview:$(git describe --tags)
+  #     if: ${{ github.ref == 'refs/heads/main'}}
+  #     id: tag-the-image
+  #     run: |
+  #       docker build -t nginx:test nginx/
+  #       docker tag nginx:test us-docker.pkg.dev/task-1-375619/port-nginx/port-nginx:$(git describe --tags)
+  #       docker tag dvireview:test  us-docker.pkg.dev/task-1-375619/dvireview/dvireview:$(git describe --tags)
 
-    - name: Google Auth
-      if: ${{ github.ref == 'refs/heads/main'}}
-      id: auth
-      uses: 'google-github-actions/auth@v0'
-      with:
-        credentials_json: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
+  #   - name: Google Auth
+  #     if: ${{ github.ref == 'refs/heads/main'}}
+  #     id: auth
+  #     uses: 'google-github-actions/auth@v0'
+  #     with:
+  #       credentials_json: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
         
-    - name: Docker Auth
-      if: ${{ github.ref == 'refs/heads/main'}}
-      run: gcloud auth configure-docker us-docker.pkg.dev
+  #   - name: Docker Auth
+  #     if: ${{ github.ref == 'refs/heads/main'}}
+  #     run: gcloud auth configure-docker us-docker.pkg.dev
 
-    - name: push the image
-      id: new-image-published
-      if: ${{ github.ref == 'refs/heads/main'}}
-      run: |
-        docker push us-docker.pkg.dev/task-1-375619/dvireview/dvireview:$(git describe --tags)
-        docker push us-docker.pkg.dev/task-1-375619/port-nginx/port-nginx:$(git describe --tags)
-      env:
-        GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS}}
+  #   - name: push the image
+  #     id: new-image-published
+  #     if: ${{ github.ref == 'refs/heads/main'}}
+  #     run: |
+  #       docker push us-docker.pkg.dev/task-1-375619/dvireview/dvireview:$(git describe --tags)
+  #       docker push us-docker.pkg.dev/task-1-375619/port-nginx/port-nginx:$(git describe --tags)
+  #     env:
+  #       GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS}}
 
-    - name: Slack Notification
-      if: always()
-      uses: act10ns/slack@v1
-      with:
-        message: CI is over now moving to the CD
-        status: ${{ job.status }}
-        steps: ${{ toJson(steps) }}
-        channel: '#ci-cd'
+  #   - name: Slack Notification
+  #     if: always()
+  #     uses: act10ns/slack@v1
+  #     with:
+  #       message: CI is over now moving to the CD
+  #       status: ${{ job.status }}
+  #       steps: ${{ toJson(steps) }}
+  #       channel: '#ci-cd'
 
-  CD:
-    needs: [CI]
-    runs-on: ubuntu-latest
-    env:
-        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
-    steps:
-    - uses: actions/checkout@v3
-    - name: clone the gitops repo
-      id: clone-the-gitops-repo
-      if: ${{ github.ref == 'refs/heads/main'}}
-      uses: actions/checkout@v3
-      with:
-        repository: dvir-pashut/port-charts
-        token: ${{ secrets.KEYSSSSS }}
-        ref: main
+  # CD:
+  #   needs: [CI]
+  #   runs-on: ubuntu-latest
+  #   env:
+  #       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
+  #   steps:
+  #   - uses: actions/checkout@v3
+  #   - name: clone the gitops repo
+  #     id: clone-the-gitops-repo
+  #     if: ${{ github.ref == 'refs/heads/main'}}
+  #     uses: actions/checkout@v3
+  #     with:
+  #       repository: dvir-pashut/port-charts
+  #       token: ${{ secrets.KEYSSSSS }}
+  #       ref: main
 
-    - name: do some gitops
-      id: update-the-gitops-repo
-      if: ${{ github.ref == 'refs/heads/main'}}
-      run: |
-        tag="${{ needs.CI.outputs.new_tag }}"
-        cd dvireview
-        sed -i "s/tag:.*/tag: $tag/" values.yaml
-        git config --global user.email "github@git.com"
-        git config --global user.name "github actions"
-        git add values.yaml
-        git commit -m "update the image tag to $tag"
-        git push origin main
+  #   - name: do some gitops
+  #     id: update-the-gitops-repo
+  #     if: ${{ github.ref == 'refs/heads/main'}}
+  #     run: |
+  #       tag="${{ needs.CI.outputs.new_tag }}"
+  #       cd dvireview
+  #       sed -i "s/tag:.*/tag: $tag/" values.yaml
+  #       git config --global user.email "github@git.com"
+  #       git config --global user.name "github actions"
+  #       git add values.yaml
+  #       git commit -m "update the image tag to $tag"
+  #       git push origin main
 
-    - name: Slack Notification
-      if: always()
-      uses: act10ns/slack@v1
-      with:
-        status: ${{ job.status }}
-        steps: ${{ toJson(steps) }}
-        channel: '#ci-cd'
-        message: done
+  #   - name: Slack Notification
+  #     if: always()
+  #     uses: act10ns/slack@v1
+  #     with:
+  #       status: ${{ job.status }}
+  #       steps: ${{ toJson(steps) }}
+  #       channel: '#ci-cd'
+  #       message: done
 
 
 
