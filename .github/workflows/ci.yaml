@@ -11,16 +11,17 @@ jobs:
     env:
         SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
     outputs:
-      new_tag: ${{ steps.tag.outputs.new_tag }}
+      new_tag: ${{ steps.tag-bump.outputs.new_tag }}
       outcome: ${{ toJson(steps) }}
     steps:
     - uses: act10ns/slack@v1
       with:
         status: starting
-        message: Starting Docker Build and Push...
+        message: Starting ci on branch
     
     - uses: actions/checkout@v3
     - name: Build the Docker image
+      id: build
       env:
         mongouser: ${{ secrets.MONGOUSER }}
         mongopass: ${{ secrets.MONGOPASS }}
@@ -29,13 +30,14 @@ jobs:
        docker compose up -d 
 
     - name: Test the app
+      id: test
       run: |
         docker ps -a
         bash e2e-tests/e2e.sh
 
     - name: Bump version and push tag
       if: ${{ github.ref == 'refs/heads/main'}}
-      id: tag
+      id: tag-bump
       uses: anothrNick/github-tag-action@1.61.0 # Don't use @master unless you're happy to test the latest version
       env:
         GITHUB_TOKEN: ${{ secrets.KEYSSSSS }}
@@ -46,7 +48,9 @@ jobs:
         DEFAULT_BRANCH: "main"
       
     - name: tag the image
+
       if: ${{ github.ref == 'refs/heads/main'}}
+      id: tag-the-image
       run: |
         docker build -t nginx:test nginx/
         docker tag nginx:test us-docker.pkg.dev/task-1-375619/port-nginx/port-nginx:$(git describe --tags)
@@ -64,6 +68,7 @@ jobs:
       run: gcloud auth configure-docker us-docker.pkg.dev
 
     - name: push the image
+      id: new-image-published
       if: ${{ github.ref == 'refs/heads/main'}}
       run: |
         docker push us-docker.pkg.dev/task-1-375619/dvireview/dvireview:$(git describe --tags)
