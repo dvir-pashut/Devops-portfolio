@@ -10,6 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
         SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
+        github_branch: ${GITHUB_REF##*/}
     outputs:
       new_tag: ${{ steps.tag-bump.outputs.new_tag }}
       outcome: ${{ toJson(steps) }}
@@ -17,7 +18,7 @@ jobs:
     - uses: act10ns/slack@v1
       with:
         status: starting
-        message: Starting CI-CD on ${GITHUB_REF##*/}
+        message: Starting CI-CD on $github_branch
     
     - uses: actions/checkout@v3
     - name: Build the Docker image
