@@ -8,11 +8,20 @@ on:
 jobs:
   CI:
     runs-on: ubuntu-latest
+    env:
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
     outputs:
-      new_tag: ${{ steps.tag.outputs.new_tag }}
+      new_tag: ${{ steps.tag-bump.outputs.new_tag }}
+      outcome: ${{ toJson(steps) }}
     steps:
+    - uses: act10ns/slack@v1
+      with:
+        status: starting
+        message: Starting CI-CD
+    
     - uses: actions/checkout@v3
     - name: Build the Docker image
+      id: build
       env:
         mongouser: ${{ secrets.MONGOUSER }}
         mongopass: ${{ secrets.MONGOPASS }}
@@ -21,13 +30,14 @@ jobs:
        docker compose up -d 
 
     - name: Test the app
+      id: test
       run: |
         docker ps -a
         bash e2e-tests/e2e.sh
 
     - name: Bump version and push tag
       if: ${{ github.ref == 'refs/heads/main'}}
-      id: tag
+      id: tag-bump
       uses: anothrNick/github-tag-action@1.61.0 # Don't use @master unless you're happy to test the latest version
       env:
         GITHUB_TOKEN: ${{ secrets.KEYSSSSS }}
@@ -38,7 +48,9 @@ jobs:
         DEFAULT_BRANCH: "main"
       
     - name: tag the image
+
       if: ${{ github.ref == 'refs/heads/main'}}
+      id: tag-the-image
       run: |
         docker build -t nginx:test nginx/
         docker tag nginx:test us-docker.pkg.dev/task-1-375619/port-nginx/port-nginx:$(git describe --tags)
@@ -56,6 +68,7 @@ jobs:
       run: gcloud auth configure-docker us-docker.pkg.dev
 
     - name: push the image
+      id: new-image-published
       if: ${{ github.ref == 'refs/heads/main'}}
       run: |
         docker push us-docker.pkg.dev/task-1-375619/dvireview/dvireview:$(git describe --tags)
@@ -63,12 +76,24 @@ jobs:
       env:
         GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS}}
 
+    - name: Slack Notification
+      if: always()
+      uses: act10ns/slack@v1
+      with:
+        message: CI is over now moving to the CD
+        status: ${{ job.status }}
+        steps: ${{ toJson(steps) }}
+        channel: '#ci-cd'
+
   CD:
     needs: [CI]
     runs-on: ubuntu-latest
+    env:
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
     steps:
     - uses: actions/checkout@v3
     - name: clone the gitops repo
+      id: clone-the-gitops-repo
       if: ${{ github.ref == 'refs/heads/main'}}
       uses: actions/checkout@v3
       with:
@@ -77,6 +102,7 @@ jobs:
         ref: main
 
     - name: do some gitops
+      id: update-the-gitops-repo
       if: ${{ github.ref == 'refs/heads/main'}}
       run: |
         tag="${{ needs.CI.outputs.new_tag }}"
@@ -89,12 +115,14 @@ jobs:
         git push origin main
 
     - name: Slack Notification
-      uses: rtCamp/action-slack-notify@v2
-      env:
-        SLACK_CHANNEL: general
-        SLACK_COLOR: ${{ job.status }} # or a specific color like 'good' or '#ff00ff'
-        SLACK_ICON: https://github.com/rtCamp.png?size=48
-        SLACK_MESSAGE: 'Post Content the job on brunch ${{ github.ref }}  was ${{ job.status }} :rocket: '
-        SLACK_TITLE: CI Report
-        SLACK_USERNAME: GithubActions
-        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+      if: always()
+      uses: act10ns/slack@v1
+      with:
+        status: ${{ job.status }}
+        steps: ${{ toJson(steps) }}
+        channel: '#ci-cd'
+        message: done
+
+
+
+      
