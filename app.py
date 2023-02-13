@@ -4,15 +4,22 @@ import os
 import re
 from pymongo import MongoClient
 from bson.objectid import ObjectId
-
-
-
+import datetime, logging, sys, json_logging, flask
 
 app = Flask(__name__)
+json_logging.init_flask(enable_json=True)
+json_logging.init_request_instrument(app)
+
+# init the logger as usual
+logger = logging.getLogger("test-logger")
+logger.setLevel(logging.DEBUG)
+logger.addHandler(logging.StreamHandler(sys.stdout))
+
 
 username = os.environ.get("MONGO_INITDB_ROOT_USERNAME")
 password = os.environ.get("MONGO_INITDB_ROOT_PASSWORD")
 releas_name = os.environ.get("REALEAS")
+
 if releas_name:
     mongo = releas_name + "-mongodb-headless"
     client = MongoClient(mongo,27017, username=username, password=password,authSource="dvireview",authMechanism='SCRAM-SHA-256')
