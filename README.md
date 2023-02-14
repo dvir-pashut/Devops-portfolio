@@ -1,4 +1,3 @@
 # portfolio-
-[![Build Status](https://github.com/fluent/helm-charts/workflows/Release%20Charts/badge.svg?branch=main)](https://github.com/dvir-pashut/portfolio-/actions)
-
+[![Build Status](https://img.shields.io/jenkins/s/https/devops-ci.elastic.co/job/elastic+helm-charts+main.svg)](https://github.com/dvir-pashut/portfolio-/actions)
 work in progress
