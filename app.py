@@ -4,7 +4,7 @@ import os
 import re
 from pymongo import MongoClient
 from bson.objectid import ObjectId
-import datetime, logging, sys, json_logging, flask
+import datetime, logging, sys, json_logging
 
 app = Flask(__name__)
 json_logging.init_flask(enable_json=True)
