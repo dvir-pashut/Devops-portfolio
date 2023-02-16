@@ -138,10 +138,6 @@ def test():
         return "you are using curl"
     return str(client)
 
-#metrics exporter
-
-
-
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0")
