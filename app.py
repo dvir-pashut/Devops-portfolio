@@ -5,8 +5,16 @@ import re
 from pymongo import MongoClient
 from bson.objectid import ObjectId
 import datetime, logging, sys, json_logging
+from prometheus_flask_exporter import PrometheusMetrics
+
 
 app = Flask(__name__)
+
+metrics = PrometheusMetrics(app)
+
+# static information as metric
+metrics.info('app_info', 'Application info', version='1.0.3')
+
 json_logging.init_flask(enable_json=True)
 json_logging.init_request_instrument(app)
 
@@ -33,6 +41,7 @@ books = db.books
 emails = db.emails
 
 # home page(not required but nice to have)
+
 @app.get("/")
 def home_page():
     books_count = books.find()
@@ -128,6 +137,9 @@ def test():
     if client == "curl":
         return "you are using curl"
     return str(client)
+
+#metrics exporter
+
 
 
 
