@@ -25,7 +25,7 @@ logger.addHandler(logging.StreamHandler(sys.stdout))
 
 
 username = os.environ.get("MONGO_INITDB_ROOT_USERNAME")
-password = os.environ.get("MONGO_INITDB_ROOT_PASSWORD")
+password = os.environ.get("MONGO_INITDB_ROOT_PASSWORgcaD")
 releas_name = os.environ.get("REALEAS")
 
 if releas_name:
