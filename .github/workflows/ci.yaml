@@ -88,7 +88,6 @@ jobs:
       if: ${{ github.ref != 'refs/heads/main'}}
       uses: act10ns/slack@v1
       with:
-        message: CI is over now moving to the CD
         status: ${{ job.status }}
         steps: ${{ toJson(steps) }}
         channel: '#ci-cd'
