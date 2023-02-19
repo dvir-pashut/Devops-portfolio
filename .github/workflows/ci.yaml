@@ -62,12 +62,10 @@ jobs:
       if: ${{ github.ref == 'refs/heads/main'}}
       id: tag-the-image
       run: |
-        docker build -t nginx:test nginx/
-        docker tag nginx:test us-docker.pkg.dev/task-1-375619/port-nginx/port-nginx:$(git describe --tags)
         docker tag dvireview:test  us-docker.pkg.dev/task-1-375619/dvireview/dvireview:$(git describe --tags)
 
     - name: Google Auth
-      #if: ${{ github.ref == 'refs/heads/main'}}
+      if: ${{ github.ref == 'refs/heads/main'}}
       id: auth
       uses: 'google-github-actions/auth@v1'
       with:
@@ -82,11 +80,11 @@ jobs:
       if: ${{ github.ref == 'refs/heads/main'}}
       run: |
         docker push us-docker.pkg.dev/task-1-375619/dvireview/dvireview:$(git describe --tags)
-        docker push us-docker.pkg.dev/task-1-375619/port-nginx/port-nginx:$(git describe --tags)
       env:
         GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS}}
 
     - name: upload-folder
+      if: ${{ github.ref == 'refs/heads/main'}}
       id: upload-folder
       uses: 'google-github-actions/upload-cloud-storage@v1'
       with:
