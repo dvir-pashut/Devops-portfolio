@@ -90,8 +90,8 @@ jobs:
       id: upload-folder
       uses: 'google-github-actions/upload-cloud-storage@v1'
       with:
-        path: 'nginx/static/'
-        destination: 'staticfiles-dvir/'
+        path: 'nginx/static'
+        destination: 'staticfiles-dvir'
 
     - name: Slack Notification
       if: ${{ github.ref == 'refs/heads/main'}}
