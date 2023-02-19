@@ -5,11 +5,21 @@
 check the manifist repo [here](https://github.com/dvir-pashut/port-infra).
 and the gitops repo  [here](https://github.com/dvir-pashut/port-charts).
 
+## repo summery
+this repo contains the apllication itself the static files and the CI-CD file
+to build localy you can run `docker compose up -d` 
+
+
 ## the project architecture
-
 ![Project architecture](nginx/static/images/project/project-detail/project-architecture.jpg)<br>
-
-
+## the app architecture
+![app architecture](nginx/static/images/project/project-detail/app_architecture.jpg)<br>
+## the git workflow
+![git workflow](nginx/static/images/project/project-detail/git_workflow.jpg)<br>
+## grafana dashboard
+![grafana dashboard](nginx/static/images/project/project-detail/grafana_dashboard.png)<br>
+## kibana dashboard
+![kibana dashboard](nginx/static/images/project/project-detail/kibana_dashboard.png)<br>
 
 
 ## the tools for the project
@@ -26,5 +36,5 @@ and the gitops repo  [here](https://github.com/dvir-pashut/port-charts).
   <li><span>IAC       - terraform</span></li>
   <li><span>secrete managment       - bitnami sealed secretes+ google secretes</span></li>
   <li><span>gitops       - argocd</span></li>
-  <li><span>static files       - nginx</span></li>
+  <li><span>static files       - gcp bucket</span></li>
 </ol>
