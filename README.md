@@ -3,10 +3,13 @@
 
 ## the project architecture
 
-![Project architecture](nginx/static/images/project/project-detail/app_architecture.jpg)
+![Project architecture](nginx/static/images/project/project-detail/project-architecture.jpg)<br>
+
+This site was built using [GitHub Pages](https://pages.github.com/).
+This site was built using [GitHub Pages](https://pages.github.com/).
 
 
-
+## the tools for the project
 <ol>
   <li><span>Ci         - github action</span></li>
   <li><span>notifications   - slack</span></li>
