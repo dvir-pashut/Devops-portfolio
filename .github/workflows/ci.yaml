@@ -122,7 +122,7 @@ jobs:
         tag="${{ needs.CI.outputs.new_tag }}"
         cd dvireview
         sed -i "s/tag:.*/tag: $tag/" values.yaml
-        git config --global user.email "github@git.com"
+        git config --global user.email "pashutdvir@gmail.com"
         git config --global user.name "github actions"
         git add values.yaml
         git commit -m "update the image tag to $tag"
