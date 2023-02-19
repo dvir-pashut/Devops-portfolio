@@ -1,15 +1,40 @@
 # portfolio-
 [![Build Status](https://img.shields.io/jenkins/s/https/devops-ci.elastic.co/job/elastic+helm-charts+main.svg)](https://github.com/dvir-pashut/portfolio-/actions)<br>
 
+### this is the application repo
+check the manifist repo [here](https://github.com/dvir-pashut/port-infra).
+and the gitops repo  [here](https://github.com/dvir-pashut/port-charts).
+
+## repo summery
+this repo contains the apllication itself the static files and the CI-CD file
+to build localy you can run `docker compose up -d` 
+
+
 ## the project architecture
+![Project architecture](nginx/static/images/project/project-detail/project-architecture.jpg)<br>
+## the app architecture
+![app architecture](nginx/static/images/project/project-detail/app_architecture.jpg)<br>
+## the git workflow
+![git workflow](nginx/static/images/project/project-detail/git_workflow.jpg)<br>
+## grafana dashboard
+![grafana dashboard](nginx/static/images/project/project-detail/grafana_dashboard.png)<br>
+## kibana dashboard
+![kibana dashboard](nginx/static/images/project/project-detail/kibana_dashboard.png)<br>
 
-![Project architecture](https://storage.googleapis.com/staticfiles-dvir/static/images/project/project-detail/project-architecture.jpg)
 
-
-
+## the tools for the project
 <ol>
-  <li>First item</li>
-  <li>Second item</li>
-  <li>Third item</li>
-  <li>Fourth item</li>
+  <li><span>Ci         - github action</span></li>
+  <li><span>notifications   - slack</span></li>
+  <li><span>cloud      - gcp</span></li>
+  <li><span>deployment - k8s</span></li>
+  <li><span>database       - mongodb</span></li>
+  <li><span>rest api   - Flask(python)</span></li>
+  <li><span>logging       - EFK(elastic, fluentd, kibana)</span></li>
+  <li><span>monitoring       - prometheus and grafana</span></li>
+  <li><span>certification       - let's encrypt</span></li>
+  <li><span>IAC       - terraform</span></li>
+  <li><span>secrete managment       - bitnami sealed secretes+ google secretes</span></li>
+  <li><span>gitops       - argocd</span></li>
+  <li><span>static files       - gcp bucket</span></li>
 </ol>
