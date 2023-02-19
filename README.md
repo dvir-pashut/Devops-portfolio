@@ -3,7 +3,7 @@
 
 ## the project architecture
 
-![Project architecture](https://storage.googleapis.com/staticfiles-dvir/static/images/project/project-detail/project-architecture.jpg)
+![Project architecture](nginx/static/images/project/project-detail/app_architecture.jpg)
 
 
 

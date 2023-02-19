@@ -85,7 +85,7 @@ jobs:
 
     - name: upload-folder
       if: ${{ github.ref == 'refs/heads/main'}}
-      id: upload-folder
+      id: update-static-folder
       uses: 'google-github-actions/upload-cloud-storage@v1'
       with:
         path: 'nginx/static'
