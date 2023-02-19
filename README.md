@@ -5,6 +5,8 @@
 
 ![Project architecture](https://storage.googleapis.com/staticfiles-dvir/images/project/project-detail/project-architecture.jpg)
 
+
+
 <ol>
   <li>First item</li>
   <li>Second item</li>
