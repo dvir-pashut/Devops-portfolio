@@ -20,6 +20,7 @@ jobs:
         message: Starting CI-CD on ${{ github.ref }}
     
     - uses: actions/checkout@v3
+      id: clone the repo
     - name: Build the Docker image
       id: build
       env:
@@ -34,6 +35,14 @@ jobs:
       run: |
         docker ps -a
         bash e2e-tests/e2e.sh
+    
+    - name: Slack Notification
+      if: ${{ github.ref != 'refs/heads/main'}}
+      uses: act10ns/slack@v1
+      with:
+        status: ${{ job.status }}
+        steps: ${{ toJson(steps) }}
+        channel: '#ci-cd'
 
     - name: Bump version and push tag
       if: ${{ github.ref == 'refs/heads/main'}}
@@ -84,14 +93,6 @@ jobs:
         status: ${{ job.status }}
         steps: ${{ toJson(steps) }}
         channel: '#ci-cd'
-    - name: Slack Notification
-      if: ${{ github.ref != 'refs/heads/main'}}
-      uses: act10ns/slack@v1
-      with:
-        status: ${{ job.status }}
-        steps: ${{ toJson(steps) }}
-        channel: '#ci-cd'
-
   CD:
     needs: [CI]
     runs-on: ubuntu-latest
