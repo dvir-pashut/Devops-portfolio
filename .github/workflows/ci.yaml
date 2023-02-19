@@ -67,7 +67,7 @@ jobs:
         docker tag dvireview:test  us-docker.pkg.dev/task-1-375619/dvireview/dvireview:$(git describe --tags)
 
     - name: Google Auth
-      if: ${{ github.ref == 'refs/heads/main'}}
+      #if: ${{ github.ref == 'refs/heads/main'}}
       id: auth
       uses: 'google-github-actions/auth@v1'
       with:
