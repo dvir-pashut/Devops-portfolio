@@ -1,12 +1,15 @@
 # portfolio-
 [![Build Status](https://img.shields.io/jenkins/s/https/devops-ci.elastic.co/job/elastic+helm-charts+main.svg)](https://github.com/dvir-pashut/portfolio-/actions)<br>
 
+### this is the application repo
+check the manifist repo [here](https://github.com/dvir-pashut/port-infra).
+and the gitops repo  [here](https://github.com/dvir-pashut/port-charts).
+
 ## the project architecture
 
 ![Project architecture](nginx/static/images/project/project-detail/project-architecture.jpg)<br>
 
-This site was built using [GitHub Pages](https://pages.github.com/).
-This site was built using [GitHub Pages](https://pages.github.com/).
+
 
 
 ## the tools for the project
