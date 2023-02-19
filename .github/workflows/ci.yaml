@@ -20,6 +20,8 @@ jobs:
         message: Starting CI-CD on ${{ github.ref }}
     
     - uses: actions/checkout@v3
+      id: clone-the-repo
+
     - name: Build the Docker image
       id: build
       env:
@@ -34,6 +36,14 @@ jobs:
       run: |
         docker ps -a
         bash e2e-tests/e2e.sh
+    
+    - name: Slack Notification
+      if: ${{ github.ref != 'refs/heads/main'}}
+      uses: act10ns/slack@v1
+      with:
+        status: ${{ job.status }}
+        steps: ${{ toJson(steps) }}
+        channel: '#ci-cd'
 
     - name: Bump version and push tag
       if: ${{ github.ref == 'refs/heads/main'}}
@@ -52,14 +62,12 @@ jobs:
       if: ${{ github.ref == 'refs/heads/main'}}
       id: tag-the-image
       run: |
-        docker build -t nginx:test nginx/
-        docker tag nginx:test us-docker.pkg.dev/task-1-375619/port-nginx/port-nginx:$(git describe --tags)
         docker tag dvireview:test  us-docker.pkg.dev/task-1-375619/dvireview/dvireview:$(git describe --tags)
 
     - name: Google Auth
       if: ${{ github.ref == 'refs/heads/main'}}
       id: auth
-      uses: 'google-github-actions/auth@v0'
+      uses: 'google-github-actions/auth@v1'
       with:
         credentials_json: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
         
@@ -72,9 +80,16 @@ jobs:
       if: ${{ github.ref == 'refs/heads/main'}}
       run: |
         docker push us-docker.pkg.dev/task-1-375619/dvireview/dvireview:$(git describe --tags)
-        docker push us-docker.pkg.dev/task-1-375619/port-nginx/port-nginx:$(git describe --tags)
       env:
         GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS}}
+
+    - name: upload-folder
+      if: ${{ github.ref == 'refs/heads/main'}}
+      id: upload-folder
+      uses: 'google-github-actions/upload-cloud-storage@v1'
+      with:
+        path: 'nginx/static'
+        destination: 'staticfiles-dvir'
 
     - name: Slack Notification
       if: ${{ github.ref == 'refs/heads/main'}}
@@ -84,14 +99,6 @@ jobs:
         status: ${{ job.status }}
         steps: ${{ toJson(steps) }}
         channel: '#ci-cd'
-    - name: Slack Notification
-      if: ${{ github.ref != 'refs/heads/main'}}
-      uses: act10ns/slack@v1
-      with:
-        status: ${{ job.status }}
-        steps: ${{ toJson(steps) }}
-        channel: '#ci-cd'
-
   CD:
     needs: [CI]
     runs-on: ubuntu-latest
