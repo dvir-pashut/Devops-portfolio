@@ -1,5 +1,5 @@
 # portfolio-
-[![Build Status](https://img.shields.io/jenkins/s/https/devops-ci.elastic.co/job/elastic+helm-charts+main.svg)](https://github.com/dvir-pashut/portfolio-/actions)<br>
+[![Build Status](https://github.com/actions/checkout/actions/workflows/test.yml/badge.svg)](https://github.com/dvir-pashut/portfolio-/actions)<br>
 
 ### this is the application repo
 check the manifist repo [here](https://github.com/dvir-pashut/port-infra).
