@@ -58,7 +58,6 @@ jobs:
         DEFAULT_BRANCH: "main"
       
     - name: tag the image
-
       if: ${{ github.ref == 'refs/heads/main'}}
       id: tag-the-image
       run: |
