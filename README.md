@@ -21,6 +21,9 @@ to build localy you can run `docker compose up -d`
 ## kibana dashboard
 ![kibana dashboard](nginx/static/images/project/project-detail/kibana_dashboard.png)<br>
 
+## simply running terraform apply will give you this 
+![argo dashboard](nginx/static/images/project/project-detail/argo_dashboard.png)
+
 
 ## the tools for the project
 <ol>
