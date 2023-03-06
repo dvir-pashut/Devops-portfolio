@@ -28,6 +28,7 @@ username = os.environ.get("MONGO_INITDB_ROOT_USERNAME")
 password = os.environ.get("MONGO_INITDB_ROOT_PASSWORD")
 releas_name = os.environ.get("REALEAS")
 
+
 if releas_name:
     mongo = releas_name + "-mongodb-headless"
     client = MongoClient(mongo,27017, username=username, password=password,authSource="dvireview",authMechanism='SCRAM-SHA-256')
