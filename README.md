@@ -6,8 +6,19 @@ and the gitops repo  [here](https://github.com/dvir-pashut/port-charts).
 
 ## repo summery
 this repo contains the apllication itself the static files and the CI-CD file
-to build localy you can run <br> 
 
+
+
+to build localy you first need to create an .env file with the following content
+
+```sh
+#when running loccaly the app is using this credentials to acces the mongodb
+mongouser=root
+mongopass=password
+```
+
+
+run <br> 
 ```sh
 docker build -t  dvireview . 
 docker compose up -d
