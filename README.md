@@ -6,7 +6,10 @@ and the gitops repo  [here](https://github.com/dvir-pashut/port-charts).
 
 ## repo summery
 this repo contains the apllication itself the static files and the CI-CD file
-to build localy you can run `docker compose up -d` 
+to build localy you can run <br> 
+sh'''
+docker compose up -d
+''' 
 
 
 ## the project architecture
