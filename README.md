@@ -18,9 +18,9 @@ mongopass=password
 ```
 
 
-run <br> 
+and then run <br> 
 ```sh
-docker build -t  dvireview . 
+docker build -t  dvireview:test . 
 docker compose up -d
 ```
 
