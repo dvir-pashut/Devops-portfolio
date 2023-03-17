@@ -1,6 +1,5 @@
 # portfolio-
-[![Build Status](https://github.com/actions/checkout/actions/workflows/test.yml/badge.svg)](https://github.com/dvir-pashut/portfolio-/actions)<br>
-
+[![CI](https://github.com/dvir-pashut/portfolio-/actions/workflows/ci.yaml/badge.svg?branch=main)](https://github.com/dvir-pashut/portfolio-/actions/workflows/ci.yaml)
 ### this is the application repo
 check the manifist repo [here](https://github.com/dvir-pashut/port-infra).
 and the gitops repo  [here](https://github.com/dvir-pashut/port-charts).
