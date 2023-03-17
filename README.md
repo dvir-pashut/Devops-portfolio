@@ -7,9 +7,11 @@ and the gitops repo  [here](https://github.com/dvir-pashut/port-charts).
 ## repo summery
 this repo contains the apllication itself the static files and the CI-CD file
 to build localy you can run <br> 
-sh'''
+
+```sh
+docker build -t  dvireview . 
 docker compose up -d
-''' 
+```
 
 
 ## the project architecture
