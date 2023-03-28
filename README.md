@@ -12,7 +12,7 @@ this repo contains the apllication itself the static files and the CI-CD file
 to build localy you first need to create an .env file with the following content
 
 ```sh
-#when running loccaly the app is using this credentials to acces the mongodb
+#when running loccaly the app is using this credentials to access the mongodb
 mongouser=root
 mongopass=password
 ```
